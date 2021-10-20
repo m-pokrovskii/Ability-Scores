@@ -1,56 +1,11 @@
 import React, { useContext, useReducer, useEffect } from 'react';
+import { useImmerReducer } from 'use-immer';
 import reducer from '../reducer';
+import { initialState } from '../data/initialState';
 const GlobalContext = React.createContext();
-const initialState = {
-	racialAbilityModifier: {
-		strength: -1,
-		dexterity: +2
-	},
-	abilities: {
-		pool: 25,
-		base: {
-			strength: 8,
-			dexterity: 8,
-			constitution: 8,
-			intelligence: 8,
-			wisdom: 8,
-			charisma: 8
-		},
-		final: {
-			strength: 8,
-			dexterity: 8,
-			constitution: 8,
-			intelligence: 8,
-			wisdom: 8,
-			charisma: 8
-		},
-		baseMods: [{
-			id: 'racialAbilityModifier',
-			name: "Racial Ability Modifier. Elf",
-			strength: -1,
-			dexterity: +2,
-		}, {
-			id: 'levelUpStrength',
-			name: "Level Up Stength",
-			strength: +1,
-		}],
-		finalMods: [
-			{
-				id: 'bullStrength',
-				name: "Bull Strength",
-				strength: +4,
-			},
-			{
-				id: 'catGrace',
-				name: "Cat Grace",
-				dexterity: +4,
-			}
-		]
-	},
-}
 
 const GlobalProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(reducer, initialState)
+	const [state, dispatch] = useImmerReducer(reducer, initialState)
 	const increaseAbilityManualy = (name) => {
 		dispatch({ type: 'INCREASE_ABILITY_MANUALY', payload: { name } })
 	}
@@ -59,16 +14,36 @@ const GlobalProvider = ({ children }) => {
 		dispatch({ type: 'DECREASE_ABILITY_MANUALY', payload: { name } })
 	}
 
+	const handleRaceSelect = (e) => {
+		dispatch({ type: 'HANDLE_RACE_SELECT', payload: { raceId: e.target.value } })
+	}
+	const handleHumanMod = (e) => {
+		dispatch({ type: 'HANDLE_HUMAN_MOD', payload: { abilityName: e.target.value } })
+	}
+
+	const resetAbilities = () => {
+		dispatch({ type: 'RESET_ABILITIES', payload: { initPointBuy: initialState } })
+	}
+
 	useEffect(() => {
-		dispatch({ type: 'INIT_ABILITIES' })
-	}, [])
+		dispatch({ type: 'UPDATE_MOD' })
+	}, Object.keys(state.abilities).map((name) => {
+		return state.abilities[name].final;
+	}))
+
+	useEffect(() => {
+		dispatch({ type: "APPLY_RACE_MODS" })
+	}, [state.baseMods])
 
 
 	return (
 		<GlobalContext.Provider value={{
 			...state,
 			increaseAbilityManualy,
-			decreaseAbilityManualy
+			decreaseAbilityManualy,
+			resetAbilities,
+			handleRaceSelect,
+			handleHumanMod
 		}}>
 			{children}
 		</GlobalContext.Provider>
