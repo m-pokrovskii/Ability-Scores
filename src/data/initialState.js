@@ -1,5 +1,5 @@
 export const initialState = {
-	pool: 25,
+	pool: 29,
 	abilities: {
 		strength: {
 			base: 10,

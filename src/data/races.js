@@ -35,8 +35,28 @@ const races = {
 		racialAbilityModifier: {
 			id: 'racialAbilityModifier',
 			name: "Racial Ability Modifier",
+			affect: {}
+		}
+	},
+	halfElf: {
+		id: "halfElf",
+		name: "Half-Elf",
+		description: "Description Half Elf",
+		racialAbilityModifier: {
+			id: 'racialAbilityModifier',
+			name: "Racial Ability Modifier",
+			affect: {}
+		}
+	},
+	halfElfKindredRaised: {
+		id: "halfElfKindredRaised",
+		name: "Half-Elf. Kindred-Raised",
+		description: "Description Half-Elf. Kindred-Raised",
+		racialAbilityModifier: {
+			id: 'racialAbilityModifier',
+			name: "Racial Ability Modifier",
 			affect: {
-				strength: +2
+				charisma: +2
 			}
 		}
 	}

@@ -127,6 +127,15 @@ const reducer = (draft, action) => {
 			racialAbilityModifier.affect[abilityName] = +2;
 			return;
 		}
+		case "HANDLE_PLUS_TWO_TO_ONE_ABILITY_SCORE": {
+			console.log(action.type);
+			const { raceId, abilityName } = action.payload;
+			const racialAbilityModifier = draft.baseMods.racialAbilityModifier;
+			const defaultRacialAbilityModifier = races[raceId].racialAbilityModifier.affect;
+			racialAbilityModifier.affect = { ...defaultRacialAbilityModifier };
+			racialAbilityModifier.affect[abilityName] = racialAbilityModifier.affect[abilityName] + 2 || 2;
+			return;
+		}
 		default: {
 			return draft
 		}

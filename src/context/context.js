@@ -17,8 +17,8 @@ const GlobalProvider = ({ children }) => {
 	const handleRaceSelect = (e) => {
 		dispatch({ type: 'HANDLE_RACE_SELECT', payload: { raceId: e.target.value } })
 	}
-	const handleHumanMod = (e) => {
-		dispatch({ type: 'HANDLE_HUMAN_MOD', payload: { abilityName: e.target.value } })
+	const handleHumanMod = ({ e, raceId }) => {
+		dispatch({ type: 'HANDLE_PLUS_TWO_TO_ONE_ABILITY_SCORE', payload: { abilityName: e.target.value, raceId } })
 	}
 
 	const resetAbilities = () => {
